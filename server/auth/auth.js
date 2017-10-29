@@ -23,6 +23,23 @@ exports.decodeToken = function(){
     };
 };
 
+
+exports.getFreshUser =function(){
+    return function(req, res, next){
+        User.findById(req.user._id)
+            .then(function(user){
+                if(!user){
+                    res.status(401).send('Unauthorised');
+                }
+                else{
+                    req.user = user;
+                    next();
+                }
+            }, function(err){
+                next(err);
+            });
+    };
+};
 //verify User has nothing to do with JWT we are checking to see if the
 // password provided is the same as the password given at singup
 exports.verifyUser = function(){
