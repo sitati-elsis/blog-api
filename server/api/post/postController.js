@@ -3,7 +3,7 @@ let _ = require('lodash');
 
 exports.params = function(req,res,next,id){
     Post.findById(id)
-        .populate('author categories')
+        .populate('author', 'username')
         .exec()
         .then(function(post){
             if(!post){
